@@ -18,16 +18,22 @@ def scan_subdomains_attack(subdomain):
         try:
             requests.get(subdomain)
             print(f'[+] {subdomain}  ip: {socket.gethostbyname(subdomain.replace("https://","").replace("http://",""))}')
-        except requests.ConnectionError:
+        except:
             pass
 def scan_subdomains(domain):
     print("-"*10,"use shodan for check if ip owned by cloudflare","-"*10) 
     file = open(args.file,"r")
+    list = []
     for subdomain in file:
-        subdomain = subdomain.split("\n")[0]
-        url = f"https://{subdomain}.{domain}"
-        threading.Thread(target=scan_subdomains_attack,args=(url,)).start()
-    
+        try:
+            subdomain = subdomain.split("\n")[0]
+            url = f"https://{subdomain}.{domain}"
+            threading.Thread(target=scan_subdomains_attack,args=(url,)).start()
+        except:
+            list.append(url)
+    time.sleep(4)
+    for sub in list:
+        threading.Thread(target=scan_subdomains_attack,args=(sub,)).start()
         
 if(args.domain):
     scan_subdomains(args.domain)
