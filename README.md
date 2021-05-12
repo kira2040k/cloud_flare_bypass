@@ -8,7 +8,8 @@ use <a href="https://www.shodan.io/">shodan</a> for check if ip owned by cloudfl
 
 # usage:
 -bruteforce ip
-                        
+    
+    example:
     python main.py https://google.com 
 
 -scan subdomains
